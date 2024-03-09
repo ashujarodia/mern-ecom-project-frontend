@@ -1,19 +1,11 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
 
 export type Props = Partial<{
-  errors: any[];
-  className: string;
+	errors: any[];
+	className: string;
 }>;
 
-export const ErrorMessage: React.FC<Props> = ({
-  errors = [],
-  className = "",
-}) => {
-  return errors?.length > 0 ? (
-    <div className={`text-red-500 text-left text-xs w-full mt-1 ${className}`}>
-      {errors.join(", ")}
-    </div>
-  ) : (
-    <></>
-  );
+export const ErrorMessage: React.FC<Props> = ({ errors = [], className = '' }) => {
+	return errors?.length > 0 ? <div className={`text-red-500 text-left text-xs w-full mt-1 ${className}`}>{errors.join(', ')}</div> : <></>;
 };
