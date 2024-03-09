@@ -88,7 +88,12 @@ const CheckoutForm = () => {
 			<h1 className='text-2xl my-3 text-gray-800 font-bold text-center'>Payment</h1>
 			<form onSubmit={submitHandler}>
 				<PaymentElement />
-				<button className='w-full text-center bg-gray-800 py-1 text-white-A700 rounded mt-3'>{isProcessing ? 'Processing...' : `Pay ₹${data?.cart[0]?.total}`}</button>
+				<button
+					className='w-full text-center bg-gray-800 py-1 text-white-A700 rounded mt-3'
+					disabled={isProcessing}
+				>
+					{isProcessing ? 'Processing...' : `Pay ₹${data?.cart[0]?.total}`}
+				</button>
 			</form>
 		</div>
 	);

@@ -22,6 +22,8 @@ const NewProduct = () => {
 	const [photoPrev, setPhotoPrev] = useState<string>('');
 	const [photo, setPhoto] = useState<File>();
 
+	const [isCreating, setIsCreating] = useState<boolean>(false);
+
 	const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		const file: File | undefined = e.target.files?.[0];
 
@@ -40,7 +42,7 @@ const NewProduct = () => {
 
 	const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+		setIsCreating(true);
 		if (!name || !price || stock < 0 || !category || !photo) return;
 		const formData = new FormData();
 
@@ -54,6 +56,7 @@ const NewProduct = () => {
 		const res = await newProduct({ id: user?._id || '', formData });
 
 		responseToast(res, navigate, '/admin/product');
+		setIsCreating(false);
 	};
 
 	const categoryArr = categories?.categories;
@@ -198,8 +201,9 @@ const NewProduct = () => {
 							size='md'
 							variant='fill'
 							className='w-full'
+							disabled={isCreating}
 						>
-							Create
+							{isCreating ? 'Creating ...' : 'Create'}
 						</Button>
 					</form>
 				</article>

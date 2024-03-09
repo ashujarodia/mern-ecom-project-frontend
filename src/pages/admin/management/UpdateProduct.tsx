@@ -8,14 +8,15 @@ import { useGetProductDetailsQuery, useUpdateProductMutation } from '../../../re
 import { RootState, server } from '../../../redux/store';
 import { responseToast } from '../../../utils/features';
 import toast from 'react-hot-toast';
+import { SkeletonLoader } from '../../../components/Loader';
 
 const UpdateProduct = () => {
 	const { user } = useSelector((state: RootState) => state.user);
 	const navigate = useNavigate();
 	const params = useParams();
 
-	const { data: products } = useGetProductDetailsQuery(params.id!);
-	const { data: categories } = useGetAllCategoriesQuery(user?._id || '');
+	const { data: products, isLoading: productsLoading } = useGetProductDetailsQuery(params.id!);
+	const { data: categories, isLoading: categoriesLoading } = useGetAllCategoriesQuery(user?._id || '');
 
 	const [updateProduct] = useUpdateProductMutation();
 
@@ -29,6 +30,8 @@ const UpdateProduct = () => {
 	const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
 
 	const [photoFile, setPhotoFile] = useState<File>();
+
+	const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
 	const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		const file: File | undefined = e.target.files?.[0];
@@ -48,9 +51,10 @@ const UpdateProduct = () => {
 
 	const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setIsUpdating(true);
 		if (stockUpdate < 0 || priceUpdate < 0) {
 			console.log(stockUpdate);
-
+			setIsUpdating(false);
 			return toast.error('Field should not be negative');
 		}
 		const formData = new FormData();
@@ -74,6 +78,7 @@ const UpdateProduct = () => {
 		}
 		const res = await updateProduct({ formData, userId: user?._id || '', productId: params.id || '' });
 		responseToast(res, navigate, '/admin/product');
+		setIsUpdating(false);
 	};
 
 	const categoryArr = categories?.categories;
@@ -92,145 +97,150 @@ const UpdateProduct = () => {
 		<div className='my-16'>
 			<AdminSideBar />
 
-			<main className='flex justify-center mx-auto max-w-[800px]'>
-				<article className='bg-white p-8 rounded-lg shadow-lg border w-full'>
-					<form
-						onSubmit={submitHandler}
-						className='space-y-4'
-					>
-						<h2 className='text-2xl font-bold mb-4 text-gray-800'>Update Product</h2>
-						<div>
-							<label
-								htmlFor='name'
-								className='block mb-1 text-gray-800'
-							>
-								Name
-							</label>
-							<input
-								id='name'
-								type='text'
-								placeholder='Enter product name'
-								value={nameUpdate}
-								onChange={(e) => setNameUpdate(e.target.value)}
-								className='w-full border-gray-300 border p-2 rounded'
-							/>
-						</div>
-						<div>
-							<label
-								htmlFor='price'
-								className='block mb-1 text-gray-800'
-							>
-								Price
-							</label>
-							<input
-								type='number'
-								placeholder='Enter price here'
-								value={priceUpdate}
-								onChange={(e) => setPriceUpdate(Number(e.target.value))}
-								className='w-full border-gray-300 border p-2 rounded'
-							/>
-						</div>
-
-						<div>
-							<label
-								htmlFor='category'
-								className='block mb-1 text-gray-800'
-							>
-								Category
-							</label>
-							<select
-								value={categoryUpdate}
-								onChange={(e) => setCategoryUpdate(e.target.value)}
-								className='w-full border-gray-300 border p-2 rounded'
-							>
-								{categoryArr?.map((i) => (
-									<option
-										key={i._id}
-										value={i.name}
-									>
-										{i.name}
-									</option>
-								))}
-							</select>
-						</div>
-
-						<div>
-							<label
-								htmlFor='description'
-								className='block mb-1 text-gray-800'
-							>
-								Description
-							</label>
-							<input
-								id='description'
-								type='text'
-								placeholder='Enter product description'
-								value={descriptionUpdate}
-								onChange={(e) => setDescriptionUpdate(e.target.value)}
-								className='w-full border-gray-300 border p-2 rounded'
-							/>
-						</div>
-
-						<div>
-							<label
-								htmlFor='photo'
-								className='block mb-1 text-gray-800'
-							>
-								Photo
-							</label>
-							<input
-								id='photo'
-								type='file'
-								onChange={changeImageHandler}
-								className='w-full border-gray-300 border p-2 rounded'
-							/>
-						</div>
-
-						{photoUpdate ? (
-							<img
-								src={photoUpdate}
-								alt='New Image'
-								className='mt-4 rounded'
-								style={{ maxWidth: '200px' }}
-							/>
-						) : (
-							<img
-								src={`${server}/${photo}`}
-								alt='New Image'
-								className='mt-4 rounded'
-								style={{ maxWidth: '200px' }}
-							/>
-						)}
-
-						<div>
-							<label
-								htmlFor='stock'
-								className='block mb-1 text-gray-800'
-							>
-								Stock
-							</label>
-							<input
-								id='stock'
-								type='number'
-								placeholder='Enter stock here'
-								value={stockUpdate}
-								onChange={(e) => setStockUpdate(Number(e.target.value))}
-								className='w-full border-gray-300 border p-2 rounded'
-							/>
-						</div>
-						<Button
-							type='submit'
-							shape='square'
-							color='gray_800'
-							size='md'
-							variant='fill'
-							className='w-full'
+			{productsLoading || categoriesLoading ? (
+				<SkeletonLoader />
+			) : (
+				<main className='flex justify-center mx-auto max-w-[800px]'>
+					<article className='bg-white p-8 rounded-lg shadow-lg border w-full'>
+						<form
+							onSubmit={submitHandler}
+							className='space-y-4'
 						>
-							Update
-						</Button>
-					</form>
-				</article>
-			</main>
+							<h2 className='text-2xl font-bold mb-4 text-gray-800'>Update Product</h2>
+							<div>
+								<label
+									htmlFor='name'
+									className='block mb-1 text-gray-800'
+								>
+									Name
+								</label>
+								<input
+									id='name'
+									type='text'
+									placeholder='Enter product name'
+									value={nameUpdate}
+									onChange={(e) => setNameUpdate(e.target.value)}
+									className='w-full border-gray-300 border p-2 rounded'
+								/>
+							</div>
+							<div>
+								<label
+									htmlFor='price'
+									className='block mb-1 text-gray-800'
+								>
+									Price
+								</label>
+								<input
+									type='number'
+									placeholder='Enter price here'
+									value={priceUpdate}
+									onChange={(e) => setPriceUpdate(Number(e.target.value))}
+									className='w-full border-gray-300 border p-2 rounded'
+								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor='category'
+									className='block mb-1 text-gray-800'
+								>
+									Category
+								</label>
+								<select
+									value={categoryUpdate}
+									onChange={(e) => setCategoryUpdate(e.target.value)}
+									className='w-full border-gray-300 border p-2 rounded'
+								>
+									{categoryArr?.map((i) => (
+										<option
+											key={i._id}
+											value={i.name}
+										>
+											{i.name}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div>
+								<label
+									htmlFor='description'
+									className='block mb-1 text-gray-800'
+								>
+									Description
+								</label>
+								<input
+									id='description'
+									type='text'
+									placeholder='Enter product description'
+									value={descriptionUpdate}
+									onChange={(e) => setDescriptionUpdate(e.target.value)}
+									className='w-full border-gray-300 border p-2 rounded'
+								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor='photo'
+									className='block mb-1 text-gray-800'
+								>
+									Photo
+								</label>
+								<input
+									id='photo'
+									type='file'
+									onChange={changeImageHandler}
+									className='w-full border-gray-300 border p-2 rounded'
+								/>
+							</div>
+
+							{photoUpdate ? (
+								<img
+									src={photoUpdate}
+									alt='New Image'
+									className='mt-4 rounded'
+									style={{ maxWidth: '200px' }}
+								/>
+							) : (
+								<img
+									src={`${server}/${photo}`}
+									alt='New Image'
+									className='mt-4 rounded'
+									style={{ maxWidth: '200px' }}
+								/>
+							)}
+
+							<div>
+								<label
+									htmlFor='stock'
+									className='block mb-1 text-gray-800'
+								>
+									Stock
+								</label>
+								<input
+									id='stock'
+									type='number'
+									placeholder='Enter stock here'
+									value={stockUpdate}
+									onChange={(e) => setStockUpdate(Number(e.target.value))}
+									className='w-full border-gray-300 border p-2 rounded'
+								/>
+							</div>
+							<Button
+								type='submit'
+								shape='square'
+								color='gray_800'
+								size='md'
+								variant='fill'
+								className='w-full'
+								disabled={isUpdating}
+							>
+								{isUpdating ? 'Updating ...' : 'Update'}
+							</Button>
+						</form>
+					</article>
+				</main>
+			)}
 		</div>
 	);
 };

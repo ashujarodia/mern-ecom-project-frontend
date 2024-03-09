@@ -14,7 +14,7 @@ const Shipping = () => {
 	const { user } = useSelector((state: RootState) => state.user);
 	const { data, isLoading: orderLoading } = useGetMyOrdersQuery(user?._id || '');
 
-	const shippingAddress = data?.orders[0].shippingInfo;
+	const shippingAddress = data?.orders[0]?.shippingInfo;
 
 	const [address, setAddress] = useState<string>(shippingAddress?.address || '');
 	const [city, setCity] = useState<string>(shippingAddress?.city || '');

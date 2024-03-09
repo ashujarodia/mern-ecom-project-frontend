@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 
 const AdminSideBar = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const url = window.location.pathname;
+	const url = window.location.hash;
 
 	const ListItem = ({ link }: { link: string }) => {
 		return (
-			<li className={`px-4 py-2 rounded w-full   ${url === `/admin/${link}` ? 'bg-gray-200 text-blue-500' : 'hover:bg-gray-100'}`}>
+			<li className={`px-4 py-2 rounded w-full   ${url === `#/admin/${link}` ? 'bg-gray-200 text-blue-500' : 'hover:bg-gray-100'}`}>
 				<Link
 					to={`/admin/${link}`}
 					className='block'
+					onClick={() => setIsOpen(false)}
 				>
 					{link.charAt(0).toUpperCase() + link.slice(1)}
 				</Link>
@@ -29,7 +30,7 @@ const AdminSideBar = () => {
 			</button>
 			<div
 				className={`border-2 w-64 flex flex-col fixed left-0 top-0 rounded-r-2xl min-h-screen bg-white-A700  my-4 transition duration-300 ${
-					isOpen ? '-translate-x-64 sm:translate-x-0' : 'translate-x-0 sm:-translate-x-64'
+					isOpen ? 'translate-x-0' : '-translate-x-64'
 				}`}
 			>
 				{/* Navigation */}

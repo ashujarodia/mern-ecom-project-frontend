@@ -54,7 +54,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className='flex items-center justify-center w-full fixed z-50 top-0'>
+		<header className='flex items-center justify-center w-full fixed z-50 top-0 px-2'>
 			<div className='bg-white-A700 flex flex-row items-center justify-center  sm:p-2 p-[17px] w-full px-6 sm:px-1'>
 				<div className='flex w-full justify-between'>
 					<Link
@@ -77,7 +77,7 @@ const Header = () => {
 						{user?.role === 'admin' && (
 							<Link
 								className={`text-lg sm:text-base px-2 rounded-md  ${
-									window.location.pathname.includes('/admin') && 'bg-blue-100 text-blue-500'
+									window.location.hash.includes('/admin') && 'bg-blue-100 text-blue-500'
 								}`}
 								to={'/admin/dashboard'}
 							>

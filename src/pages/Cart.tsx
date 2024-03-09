@@ -97,7 +97,7 @@ const Cart: React.FC = () => {
 								</Text>
 							</div>
 						</div>
-						<div className='flex flex-col md:gap-10 gap-20 items-end justify-start max-w-[1632px] mt-20 sm:mt-8 mx-auto  w-full px-40'>
+						<div className='flex flex-col md:gap-10 gap-20 items-end justify-start max-w-[1632px] mt-20 sm:mt-8 mx-auto  w-full px-40 sm:px-3'>
 							<div className='flex flex-col gap-8 sm:gap-2 items-center justify-start w-full'>
 								<div className='flex flex-col gap-[31px] sm:gap-2 items-center justify-start w-full'>
 									<List
