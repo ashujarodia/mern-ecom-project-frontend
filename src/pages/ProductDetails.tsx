@@ -59,6 +59,8 @@ const ProductDetails: React.FC = () => {
 		}
 	};
 
+	console.log(`${server}/${product?.photo}`);
+
 	return (
 		<div className='bg-white-A700 flex flex-col font-poppins gap-8 items-center justify-start mx-auto px-28 sm:px-2 w-full mt-20 '>
 			{isLoading ? (
