@@ -1,8 +1,4 @@
-import { Button } from 'components/Button';
-import { Img } from 'components/Img';
-import { List } from 'components/List';
-import { Text } from 'components/Text';
-import React from 'react';
+import { Button, Img, List, Text } from '..';
 
 const Collections = () => {
 	return (
