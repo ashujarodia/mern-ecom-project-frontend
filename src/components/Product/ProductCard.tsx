@@ -23,7 +23,7 @@ const ProductCard = ({ image, name, price, id }: Product) => {
 
 	const handleAddToCart = async () => {
 		if (user) {
-			const res = await addToCart({ userId: user?._id, productId: id });
+			const res = await addToCart({ userId: user?._id, productId: id, quantity: 1 });
 			responseToast(res);
 		} else {
 			toast.error('Please login to continue');
