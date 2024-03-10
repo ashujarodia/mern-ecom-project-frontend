@@ -2,7 +2,6 @@ import { Img, Text } from '..';
 
 import { Link } from 'react-router-dom';
 import { useGetAllCategoriesQuery } from '../../redux/api/categoryApi';
-import { server } from '../../redux/store';
 import { SkeletonLoader } from '../Loader';
 
 const Categories = () => {
@@ -31,7 +30,7 @@ const Categories = () => {
 							<div className='flex flex-col gap-[26px] items-center justify-start w-[47%] md:w-full'>
 								<Img
 									className='h-[68px] w-[68px]'
-									src={`${server}/${i.photo}`}
+									src={i.photo?.url}
 									alt={i.name}
 								/>
 								<Text

@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
 					<SkeletonLoader />
 				) : cartItems?.length ? (
 					<>
-						<div className='flex  flex-row items-center mt-[50px] sm:mt-8 mx-auto px-40 sm:px-0 w-full gap-8 sm:gap-2'>
+						<div className='flex  flex-row items-center mt-[50px] sm:mt-8 mx-auto px-40 md:px-0 w-full gap-8 sm:gap-2'>
 							<div className='flex flex-row items-center w-[40%] md:w-full sm:gap-1 gap-4'>
 								<div className='flex flex-row gap-6 sm:gap-2 items-center justify-start'>
 									<Text
@@ -97,11 +97,11 @@ const Cart: React.FC = () => {
 								</Text>
 							</div>
 						</div>
-						<div className='flex flex-col md:gap-10 gap-20 items-end justify-start max-w-[1632px] mt-20 sm:mt-8 mx-auto  w-full px-40 sm:px-3'>
+						<div className='flex flex-col md:gap-10 gap-20 items-end justify-start max-w-[1632px] mt-20 sm:mt-8 mx-auto  w-full px-40 md:px-3'>
 							<div className='flex flex-col gap-8 sm:gap-2 items-center justify-start w-full'>
 								<div className='flex flex-col gap-[31px] sm:gap-2 items-center justify-start w-full'>
 									<List
-										className='flex flex-col gap-[12px] items-center w-full mx-8 sm:w-full'
+										className='flex flex-col gap-[12px] items-center w-full mx-8 '
 										orientation='vertical'
 									>
 										{cartItems?.map((i) => (

@@ -2,11 +2,11 @@ import { FaEdit, FaPlus } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { SkeletonLoader } from '../../components/Loader';
 import AdminSideBar from '../../components/admin/AdminSideBar';
 import { useDeleteProductMutation, useGetAllProductsQuery, useUpdateProductMutation } from '../../redux/api/productApi';
-import { RootState, server } from '../../redux/store';
+import { RootState } from '../../redux/store';
 import { responseToast } from '../../utils/features';
-import { SkeletonLoader } from '../../components/Loader';
 
 const Product = () => {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -71,7 +71,7 @@ const Product = () => {
 											<td className='border px-4 py-2 text-center'>{product.category}</td>
 											<td className='border px-4 py-1 text-center'>
 												<img
-													src={`${server}/${product.photo}`}
+													src={product.photo?.url}
 													alt={product.name}
 													className='w-14 h-14'
 												/>

@@ -60,7 +60,7 @@ const ProductDetails: React.FC = () => {
 	};
 
 	return (
-		<div className='bg-white-A700 flex flex-col font-poppins gap-8 items-center justify-start mx-auto px-28 sm:px-2 w-full mt-20 '>
+		<div className='bg-white-A700 flex flex-col font-poppins gap-8 items-center justify-start mx-auto px-28 md:px-4 sm:px-2 w-full mt-20 '>
 			{isLoading ? (
 				<SkeletonLoader />
 			) : (
@@ -147,14 +147,9 @@ const ProductDetails: React.FC = () => {
 									Similiar Products
 								</Text>
 							</div>
-							<Img
-								className='h-12'
-								src='/images/img_button_bluegray_100.svg'
-								alt='button'
-							/>
 						</div>
 						<div className='overflow-hidden'>
-							<div className='grid grid-cols-5 gap-12 sm:grid-cols-1 md:grid-cols-3'>
+							<div className='grid grid-cols-4 gap-12 sm:grid-cols-1 md:grid-cols-2'>
 								{similarProducts?.map((i) => (
 									<ProductCard
 										key={i._id}
