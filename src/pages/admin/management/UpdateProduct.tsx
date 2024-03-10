@@ -1,14 +1,14 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { SkeletonLoader } from '../../../components/Loader';
 import AdminSideBar from '../../../components/admin/AdminSideBar';
 import { Button } from '../../../components/index';
 import { useGetAllCategoriesQuery } from '../../../redux/api/categoryApi';
 import { useGetProductDetailsQuery, useUpdateProductMutation } from '../../../redux/api/productApi';
-import { RootState, server } from '../../../redux/store';
+import { RootState } from '../../../redux/store';
 import { responseToast } from '../../../utils/features';
-import toast from 'react-hot-toast';
-import { SkeletonLoader } from '../../../components/Loader';
 
 const UpdateProduct = () => {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -202,7 +202,7 @@ const UpdateProduct = () => {
 								/>
 							) : (
 								<img
-									src={`${server}/${photo}`}
+									src={photo.url}
 									alt='New Image'
 									className='mt-4 rounded'
 									style={{ maxWidth: '200px' }}

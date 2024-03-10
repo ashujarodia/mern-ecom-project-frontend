@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 
+import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
+import { SkeletonLoader } from '../components/Loader';
 import ProductCard from '../components/Product/ProductCard';
 import { Img, Line, Text } from '../components/index';
 import { useGetAllCategoriesQuery } from '../redux/api/categoryApi';
 import { useGetAllProductsQuery } from '../redux/api/productApi';
-import { server } from '../redux/store';
 import { Product } from '../types/types';
-import toast from 'react-hot-toast';
-import { SkeletonLoader } from '../components/Loader';
 
 const ProductList: React.FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -141,7 +140,7 @@ const ProductList: React.FC = () => {
 										>
 											<Img
 												className='h-8 w-8'
-												src={`${server}/${i.photo}`}
+												src={i.photo.url}
 												alt={i.name}
 											/>
 											<Text
