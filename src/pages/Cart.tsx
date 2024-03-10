@@ -8,7 +8,7 @@ import cartImage from '../assets/images/cart.jpg';
 import { SkeletonLoader } from '../components/Loader';
 import { Button, Img, Line, List, Text } from '../components/index';
 import { useDecreaseQuantityMutation, useGetCartItemsQuery, useIncreaseQuantityMutation, useRemoveFromCartMutation } from '../redux/api/cartApi';
-import { RootState, server } from '../redux/store';
+import { RootState } from '../redux/store';
 import { responseToast } from '../utils/features';
 
 const Cart: React.FC = () => {
@@ -117,7 +117,7 @@ const Cart: React.FC = () => {
 														<Img
 															className='w-20 h-20 md:w-14 md:h-14
 													rounded sm:w-16 justify-center m-auto object-cover '
-															src={`${server}/${i.product.photo}`}
+															src={i.product.photo.url}
 															alt='placeholder'
 														/>
 														<Text

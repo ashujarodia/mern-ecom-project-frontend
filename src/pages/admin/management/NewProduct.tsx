@@ -141,9 +141,8 @@ const NewProduct = () => {
 							>
 								Description
 							</label>
-							<input
+							<textarea
 								id='description'
-								type='text'
 								placeholder='Enter product description'
 								value={description}
 								onChange={(e) => setDescription(e.target.value)}

@@ -210,7 +210,7 @@ const ProductList: React.FC = () => {
 												key={i._id}
 												id={i._id}
 												name={i.name}
-												image={i.photo}
+												image={i.photo?.url}
 												addToCart={() => {}}
 												price={i.price}
 											/>

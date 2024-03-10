@@ -16,10 +16,10 @@ const UpdateCategory = () => {
 
 	const [UpdateCategory] = useUpdateCategoryMutation();
 
-	const { photo, name } = data?.category || { photo: '', name: '' };
+	const { photo, name } = data?.category || { photo: { url: '' }, name: '' };
 
 	const [nameUpdate, setNameUpdate] = useState<string>(name);
-	const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
+	const [photoUpdate, setPhotoUpdate] = useState<string>(photo.url);
 
 	const [photoFile, setPhotoFile] = useState<File>();
 

@@ -20,14 +20,14 @@ const UpdateProduct = () => {
 
 	const [updateProduct] = useUpdateProductMutation();
 
-	const { photo, price, name, stock, category, description } = products?.product || { photo: '', category: '', name: '', stock: 0, price: 0, description: '' };
+	const { photo, price, name, stock, category, description } = products?.product || { photo: { url: '' }, category: '', name: '', stock: 0, price: 0, description: '' };
 
 	const [nameUpdate, setNameUpdate] = useState<string>(name);
 	const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
 	const [priceUpdate, setPriceUpdate] = useState<number>(price);
 	const [descriptionUpdate, setDescriptionUpdate] = useState<string>(description);
 	const [stockUpdate, setStockUpdate] = useState<number>(stock);
-	const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
+	const [photoUpdate, setPhotoUpdate] = useState<string>(photo.url);
 
 	const [photoFile, setPhotoFile] = useState<File>();
 
@@ -169,9 +169,8 @@ const UpdateProduct = () => {
 								>
 									Description
 								</label>
-								<input
+								<textarea
 									id='description'
-									type='text'
 									placeholder='Enter product description'
 									value={descriptionUpdate}
 									onChange={(e) => setDescriptionUpdate(e.target.value)}

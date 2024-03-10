@@ -14,6 +14,8 @@ const NewCategory = () => {
 	const [name, setName] = useState<string>('');
 	const [photo, setPhoto] = useState<File>();
 
+	const [isLoading, setisLoading] = useState<boolean>(false);
+
 	const [photoPrev, setPhotoPrev] = useState<string>('');
 
 	const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +36,7 @@ const NewCategory = () => {
 
 	const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
+		setisLoading(true);
 		if (!name || !photo) return;
 		const formData = new FormData();
 
@@ -42,7 +44,7 @@ const NewCategory = () => {
 		formData.set('photo', photo);
 
 		const res = await newCategory({ id: user?._id || '', formData });
-
+		setisLoading(false);
 		responseToast(res, navigate, '/admin/category');
 	};
 
@@ -107,8 +109,9 @@ const NewCategory = () => {
 							size='md'
 							variant='fill'
 							className='w-full'
+							disabled={isLoading}
 						>
-							Create
+							{isLoading ? 'Creating ...' : 'Create'}
 						</Button>
 					</form>
 				</article>

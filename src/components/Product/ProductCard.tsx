@@ -1,10 +1,10 @@
-import { Img, Button, Text } from '..';
+import { Button, Img, Text } from '..';
 
-import { useNavigate } from 'react-router-dom';
-import { RootState, server } from '../../redux/store';
-import { useAddToCartMutation } from '../../redux/api/cartApi';
-import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useAddToCartMutation } from '../../redux/api/cartApi';
+import { RootState } from '../../redux/store';
 import { responseToast } from '../../utils/features';
 
 type Product = {
@@ -35,7 +35,7 @@ const ProductCard = ({ image, name, price, id }: Product) => {
 		<div className='border-2 hover:border-gray-800 border-solid flex sm:flex-1 flex-col gap-4 h-[400px] md:h-auto items-center justify-center p-3 sm:px-5 w-[250px] sm:w-full'>
 			<Img
 				className='h-[200px] md:h-auto object-cover w-[200px] cursor-pointer'
-				src={`${server}/${image}`}
+				src={image}
 				alt={name}
 				onClick={() => navigate(`/product/${id}`)}
 			/>

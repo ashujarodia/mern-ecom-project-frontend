@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
+import toast from 'react-hot-toast';
 import { LuShoppingCart } from 'react-icons/lu';
+import { useSelector } from 'react-redux';
+import { SkeletonLoader } from '../components/Loader';
 import ProductCard from '../components/Product/ProductCard';
 import { Button, Img, Line, Text } from '../components/index';
-import { useGetProductDetailsQuery, useGetSimilarProductsQuery } from '../redux/api/productApi';
-import { RootState, server } from '../redux/store';
-import { SkeletonLoader } from '../components/Loader';
-import { useSelector } from 'react-redux';
 import { useAddToCartMutation } from '../redux/api/cartApi';
+import { useGetProductDetailsQuery, useGetSimilarProductsQuery } from '../redux/api/productApi';
+import { RootState } from '../redux/store';
 import { responseToast } from '../utils/features';
-import toast from 'react-hot-toast';
 
 type ProductDetails = {
 	image: string;
@@ -59,8 +59,6 @@ const ProductDetails: React.FC = () => {
 		}
 	};
 
-	console.log(`${server}/${product?.photo}`);
-
 	return (
 		<div className='bg-white-A700 flex flex-col font-poppins gap-8 items-center justify-start mx-auto px-28 sm:px-2 w-full mt-20 '>
 			{isLoading ? (
@@ -71,7 +69,7 @@ const ProductDetails: React.FC = () => {
 						<div className='flex md:flex-1 flex-col gap-8 items-center justify-start w-1/2 md:w-full'>
 							<Img
 								className='md:h-screen sm:h-auto object-cover w-full'
-								src={`${server}/${product?.photo}`}
+								src={product?.photo?.url}
 								alt={product?.name}
 							/>
 						</div>
@@ -162,7 +160,7 @@ const ProductDetails: React.FC = () => {
 										key={i._id}
 										id={i._id}
 										name={i.name}
-										image={i.photo}
+										image={i.photo?.url}
 										addToCart={() => {}}
 										price={i.price}
 									/>
