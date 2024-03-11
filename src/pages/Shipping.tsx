@@ -45,7 +45,7 @@ const Shipping = () => {
 						postal_code: pincode,
 						city,
 						state,
-						country: 'IN',
+						country: 'US',
 					},
 				},
 				{ headers: { 'Content-Type': 'application/json' } }
@@ -75,105 +75,107 @@ const Shipping = () => {
 		}
 	}, [cartItems]);
 
-	return orderLoading ? (
-		<SkeletonLoader />
-	) : (
+	return (
 		<div className='max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow-lg'>
 			<h2 className='text-xl font-semibold mb-8'>Shipping Details</h2>
-			<form onSubmit={submitHandler}>
-				<div className='mb-4'>
-					<label
-						htmlFor='address'
-						className='block text-sm font-medium text-gray-700'
+			{orderLoading ? (
+				<SkeletonLoader />
+			) : (
+				<form onSubmit={submitHandler}>
+					<div className='mb-4'>
+						<label
+							htmlFor='address'
+							className='block text-sm font-medium text-gray-700'
+						>
+							Address:
+						</label>
+						<input
+							type='text'
+							id='address'
+							value={address}
+							onChange={(e) => setAddress(e.target.value)}
+							className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+							required
+						/>
+					</div>
+					<div className='mb-4'>
+						<label
+							htmlFor='city'
+							className='block text-sm font-medium text-gray-700'
+						>
+							City:
+						</label>
+						<input
+							type='text'
+							id='city'
+							value={city}
+							onChange={(e) => setCity(e.target.value)}
+							className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+							required
+						/>
+					</div>
+					<div className='mb-4'>
+						<label
+							htmlFor='state'
+							className='block text-sm font-medium text-gray-700'
+						>
+							State:
+						</label>
+						<input
+							type='text'
+							id='state'
+							value={state}
+							onChange={(e) => setState(e.target.value)}
+							className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+							required
+						/>
+					</div>
+					<div className='mb-4'>
+						<label
+							htmlFor='pincode'
+							className='block text-sm font-medium text-gray-700'
+						>
+							Pincode:
+						</label>
+						<input
+							type='text'
+							id='pincode'
+							value={pincode}
+							onChange={(e) => setPincode(e.target.value)}
+							className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+							required
+						/>
+					</div>
+					<div className='mb-4'>
+						<label
+							htmlFor='country'
+							className='block text-sm font-medium text-gray-700'
+						>
+							Country:
+						</label>
+						<select
+							id='country'
+							value={country}
+							onChange={(e) => setCountry(e.target.value)}
+							className='mt-1 p-2 border border-gray-300 rounded-md w-full'
+							required
+						>
+							<option value=''>Select Country</option>
+							<option value='india'>India</option>
+						</select>
+					</div>
+					<Button
+						className='common-pointer cursor-pointer font-medium leading-[normal] text-center text-lg w-full  sm:py-2 sm:text-sm sm:px-3 py-2 px-3 mt-4'
+						shape='square'
+						color='gray_800'
+						variant='fill'
+						type='submit'
+						disabled={isLoading}
 					>
-						Address:
-					</label>
-					<input
-						type='text'
-						id='address'
-						value={address}
-						onChange={(e) => setAddress(e.target.value)}
-						className='mt-1 p-2 border border-gray-300 rounded-md w-full'
-						required
-					/>
-				</div>
-				<div className='mb-4'>
-					<label
-						htmlFor='city'
-						className='block text-sm font-medium text-gray-700'
-					>
-						City:
-					</label>
-					<input
-						type='text'
-						id='city'
-						value={city}
-						onChange={(e) => setCity(e.target.value)}
-						className='mt-1 p-2 border border-gray-300 rounded-md w-full'
-						required
-					/>
-				</div>
-				<div className='mb-4'>
-					<label
-						htmlFor='state'
-						className='block text-sm font-medium text-gray-700'
-					>
-						State:
-					</label>
-					<input
-						type='text'
-						id='state'
-						value={state}
-						onChange={(e) => setState(e.target.value)}
-						className='mt-1 p-2 border border-gray-300 rounded-md w-full'
-						required
-					/>
-				</div>
-				<div className='mb-4'>
-					<label
-						htmlFor='pincode'
-						className='block text-sm font-medium text-gray-700'
-					>
-						Pincode:
-					</label>
-					<input
-						type='text'
-						id='pincode'
-						value={pincode}
-						onChange={(e) => setPincode(e.target.value)}
-						className='mt-1 p-2 border border-gray-300 rounded-md w-full'
-						required
-					/>
-				</div>
-				<div className='mb-4'>
-					<label
-						htmlFor='country'
-						className='block text-sm font-medium text-gray-700'
-					>
-						Country:
-					</label>
-					<select
-						id='country'
-						value={country}
-						onChange={(e) => setCountry(e.target.value)}
-						className='mt-1 p-2 border border-gray-300 rounded-md w-full'
-						required
-					>
-						<option value=''>Select Country</option>
-						<option value='india'>India</option>
-					</select>
-				</div>
-				<Button
-					className='common-pointer cursor-pointer font-medium leading-[normal] text-center text-lg w-full  sm:py-2 sm:text-sm sm:px-3 py-2 px-3 mt-4'
-					shape='square'
-					color='gray_800'
-					variant='fill'
-					type='submit'
-					disabled={isLoading}
-				>
-					{isLoading ? 'Saving info...' : 'Continue'}
-				</Button>
-			</form>
+						{isLoading ? 'Saving info...' : 'Continue'}
+					</Button>
+				</form>
+			)}
 		</div>
 	);
 };

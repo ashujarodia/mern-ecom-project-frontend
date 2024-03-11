@@ -192,6 +192,8 @@ ul li a {
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
+	flex-direction: column;
+	gap: 24px;
 }
 
 .loader-div {

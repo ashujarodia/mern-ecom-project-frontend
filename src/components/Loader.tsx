@@ -1,7 +1,18 @@
-const Loader = () => {
+import React from 'react';
+
+type LoaderProps = {
+	initial?: boolean;
+};
+
+const Loader: React.FC<LoaderProps> = ({ initial }) => {
 	return (
 		<div className='loader'>
 			<div className='loader-div'></div>
+			{initial && (
+				<div>
+					<p>Hold on! We are using free hosting so it takes time to load initaily</p>
+				</div>
+			)}
 		</div>
 	);
 };

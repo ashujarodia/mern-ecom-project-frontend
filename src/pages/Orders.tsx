@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
-import { RootState, server } from '../redux/store';
-import { useGetMyOrdersQuery } from '../redux/api/orderApi';
-import { FaCircleCheck } from 'react-icons/fa6';
 import { FaInfoCircle } from 'react-icons/fa';
+import { FaCircleCheck } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SkeletonLoader } from '../components/Loader';
+import { useGetMyOrdersQuery } from '../redux/api/orderApi';
+import { RootState } from '../redux/store';
 
 const Orders = () => {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -25,18 +25,19 @@ const Orders = () => {
 								key={order._id}
 								className='bg-white rounded-lg  border border-gray-300 overflow-hidden flex items-center'
 							>
-								<Link to={`/product/${order.product._id}`}>
+								<Link
+									to={`/product/${order.product._id}`}
+									className='p-3'
+								>
 									<img
-										src={`${server}/${order.product.photo}`}
+										src={order.product.photo.url}
 										alt={order.product.name}
 										className='h-24 w-24 object-cover'
 									/>
 								</Link>
 								<div className='p-4 sm:p-3'>
-									<h3 className='text-lg font-semibold mb-2 sm:mb-1'>{order.product.name}</h3>
-									<p className='text-gray-600 mb-2 sm:mb-1'>
-										Order Id: <span className='text-sm'>{order._id}</span>
-									</p>
+									<h3 className='font-semibold mb-2 sm:mb-1'>{order.product.name}</h3>
+									<p className='text-gray-600 mb-2 sm:mb-1 text-sm'>Order Id: {order._id}</p>
 									<p className='text-gray-600 mb-2 sm:mb-1'>Quantity: {order.quantity}</p>
 									<p className='text-gray-600 mb-2 flex gap-3'>
 										Status:{' '}

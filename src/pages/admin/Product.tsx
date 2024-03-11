@@ -7,11 +7,19 @@ import AdminSideBar from '../../components/admin/AdminSideBar';
 import { useDeleteProductMutation, useGetAllProductsQuery, useUpdateProductMutation } from '../../redux/api/productApi';
 import { RootState } from '../../redux/store';
 import { responseToast } from '../../utils/features';
+import { useGetAllCategoriesQuery } from '../../redux/api/categoryApi';
+import { useEffect, useState } from 'react';
+import { Product } from '../../types/types';
 
 const Product = () => {
 	const { user } = useSelector((state: RootState) => state.user);
 	const { data, isLoading } = useGetAllProductsQuery('');
+	const { data: categories } = useGetAllCategoriesQuery('');
 	const products = data?.products;
+
+	const [selectedCategory, setSelectedCategory] = useState<string>('');
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>(products!);
+	const [showOutOfStock, setShowOutOfStock] = useState<boolean>(false);
 
 	const [deleteProduct] = useDeleteProductMutation();
 	const [updateProduct] = useUpdateProductMutation();
@@ -31,13 +39,34 @@ const Product = () => {
 		responseToast(res);
 	};
 
+	useEffect(() => {
+		if (selectedCategory) {
+			const productsFiltered = products?.filter((product) => product.category === selectedCategory.toLowerCase());
+			setFilteredProducts(productsFiltered!);
+		} else {
+			// If no category is selected, display all products
+			setFilteredProducts(products!);
+		}
+	}, [selectedCategory, products]);
+
+	// Filter out of stock products if showOutOfStock is true
+	useEffect(() => {
+		if (showOutOfStock) {
+			const outOfStockProducts = products?.filter((product) => product.stock === 0);
+			setFilteredProducts(outOfStockProducts!);
+		} else {
+			// If showOutOfStock is false, display all products
+			setFilteredProducts(products!);
+		}
+	}, [showOutOfStock, products]);
+
 	return (
 		<div className='flex my-24'>
 			<AdminSideBar />
 			{isLoading ? (
 				<SkeletonLoader />
 			) : (
-				<div className='flex-grow p-8 max-w-[800px] mx-auto'>
+				<div className='flex-grow p-8 max-w-[1200px] mx-auto'>
 					<div className='flex justify-between items-center mb-8'>
 						<h1 className='text-3xl font-bold'>Product List</h1>
 						<Link
@@ -47,8 +76,33 @@ const Product = () => {
 							New <FaPlus />
 						</Link>
 					</div>
-					<div className='bg-white rounded-lg shadow-md border p-6'>
-						<h2 className='text-xl font-semibold mb-4'>Products</h2>
+					<div className='p-6'>
+						<div className='flex justify-between my-4 items-center'>
+							<button
+								onClick={() => setShowOutOfStock(!showOutOfStock)}
+								className={`px-2 py-0.5 rounded  duration-300 ${showOutOfStock ? 'bg-red-100 ' : 'bg-white-A700 '}`}
+							>
+								<span className='font-semibold text-red-600'>Out of Stock : {outOfStockCount}</span>
+							</button>
+							<h2 className='text-xl ml-4 font-semibold'>{selectedCategory ? selectedCategory : 'All Products'}</h2>
+							<div>
+								<select
+									value={selectedCategory}
+									onChange={(e) => setSelectedCategory(e.target.value)}
+									className='border border-gray-300 p-2'
+								>
+									<option value=''>Select Category</option>
+									{categories?.categories.map((i) => (
+										<option
+											value={i.name}
+											key={i._id}
+										>
+											{i.name}
+										</option>
+									))}
+								</select>
+							</div>
+						</div>
 						{/* Display product list */}
 						<div className='overflow-x-auto'>
 							<table className='table-auto w-full'>
@@ -64,16 +118,16 @@ const Product = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{products?.map((product) => (
+									{filteredProducts?.map((product) => (
 										<tr key={product._id}>
 											<td className='border px-4 py-2 text-center'>{product.name}</td>
 											<td className='border px-4 py-2 text-center'>{product.price}</td>
 											<td className='border px-4 py-2 text-center'>{product.category}</td>
-											<td className='border px-4 py-1 text-center'>
+											<td className='border px-4 py-1 mx-auto'>
 												<img
 													src={product.photo?.url}
 													alt={product.name}
-													className='w-14 h-14'
+													className='w-20 h-20'
 												/>
 											</td>
 											<td className='border px-4 py-2 text-center'>{product.stock}</td>
@@ -107,12 +161,6 @@ const Product = () => {
 									))}
 								</tbody>
 							</table>
-						</div>
-					</div>
-					{/* Section to display number of products out of stock */}
-					<div className='mt-8'>
-						<div className='bg-red-100 rounded-lg p-4'>
-							<h2 className='text-xl font-semibold mb-2 text-red-600'>Out of Stock : {outOfStockCount}</h2>
 						</div>
 					</div>
 				</div>

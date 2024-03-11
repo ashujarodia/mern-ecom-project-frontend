@@ -126,7 +126,7 @@ const NewProduct = () => {
 								{categoryArr?.map((i) => (
 									<option
 										key={i._id}
-										value={i.name}
+										value={i.name.toLowerCase()}
 									>
 										{i.name}
 									</option>

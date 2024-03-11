@@ -53,7 +53,7 @@ const App = () => {
 	}, []);
 
 	if (!userFetched || loading) {
-		return <Loader />;
+		return <Loader initial={true} />;
 	}
 
 	return (
