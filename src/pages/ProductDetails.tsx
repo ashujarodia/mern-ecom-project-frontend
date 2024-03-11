@@ -40,6 +40,9 @@ const ProductDetails: React.FC = () => {
 	}
 
 	const handleAddToCart = async () => {
+		if (product && product?.stock < 1) {
+			return toast.error('Out of stock');
+		}
 		if (user) {
 			const res = await addToCart({ userId: user?._id || '', productId: id || '', quantity });
 			responseToast(res);
@@ -50,6 +53,9 @@ const ProductDetails: React.FC = () => {
 	};
 
 	const handleIncreaseQuantity = () => {
+		if (product && product?.stock < 1) {
+			return toast.error('Out of stock');
+		}
 		setQuantity(quantity + 1);
 	};
 
@@ -153,11 +159,7 @@ const ProductDetails: React.FC = () => {
 								{similarProducts?.map((i) => (
 									<ProductCard
 										key={i._id}
-										id={i._id}
-										name={i.name}
-										image={i.photo?.url}
-										addToCart={() => {}}
-										price={i.price}
+										product={i}
 									/>
 								))}
 							</div>

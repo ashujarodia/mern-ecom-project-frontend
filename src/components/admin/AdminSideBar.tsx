@@ -46,6 +46,7 @@ const AdminSideBar = () => {
 						<ListItem link='user' />
 						<ListItem link='product' />
 						<ListItem link='category' />
+						<ListItem link='orders' />
 					</ul>
 				</nav>
 			</div>

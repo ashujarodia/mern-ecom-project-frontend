@@ -10,6 +10,7 @@ import { Button, Img, Line, List, Text } from '../components/index';
 import { useDecreaseQuantityMutation, useGetCartItemsQuery, useIncreaseQuantityMutation, useRemoveFromCartMutation } from '../redux/api/cartApi';
 import { RootState } from '../redux/store';
 import { responseToast } from '../utils/features';
+import toast from 'react-hot-toast';
 
 const Cart: React.FC = () => {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -25,7 +26,10 @@ const Cart: React.FC = () => {
 		const res = await removeFromCart({ productId, userId: user?._id || '' });
 		responseToast(res);
 	};
-	const handleIncreaseQuantity = async (productId: string) => {
+	const handleIncreaseQuantity = async (productId: string, stock: number) => {
+		if (stock < 1) {
+			return toast.error('Out of stock');
+		}
 		const res = await increaseQuantity({ productId, userId: user?._id || '' });
 		responseToast(res);
 	};
@@ -142,7 +146,10 @@ const Cart: React.FC = () => {
 														<button
 															className='px-3 py-1 md:px-2 md:py-0  border-l-2 border-gray-800 sm:text-sm'
 															onClick={() =>
-																handleIncreaseQuantity(i.product._id)
+																handleIncreaseQuantity(
+																	i.product._id,
+																	i.product.stock
+																)
 															}
 														>
 															+

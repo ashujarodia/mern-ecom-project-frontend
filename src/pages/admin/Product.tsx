@@ -84,7 +84,7 @@ const Product = () => {
 							>
 								<span className='font-semibold text-red-600'>Out of Stock : {outOfStockCount}</span>
 							</button>
-							<h2 className='text-xl ml-4 font-semibold'>{selectedCategory ? selectedCategory : 'All Products'}</h2>
+							<h2 className='text-2xl ml-4 font-semibold'>{selectedCategory ? selectedCategory.toUpperCase() : 'ALL PRODUCTS'}</h2>
 							<div>
 								<select
 									value={selectedCategory}
@@ -122,8 +122,10 @@ const Product = () => {
 										<tr key={product._id}>
 											<td className='border px-4 py-2 text-center'>{product.name}</td>
 											<td className='border px-4 py-2 text-center'>{product.price}</td>
-											<td className='border px-4 py-2 text-center'>{product.category}</td>
-											<td className='border px-4 py-1 mx-auto'>
+											<td className='border px-4 py-2 text-center'>
+												{product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+											</td>
+											<td className='border px-4 py-3 mx-auto'>
 												<img
 													src={product.photo?.url}
 													alt={product.name}
@@ -143,19 +145,21 @@ const Product = () => {
 													<div className="relative w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-500 after:border after:rounded-full after:h-5 after:w-5 after:bg-white-A700 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
 												</label>
 											</td>
-											<td className='border px-4 py-5 h-full flex  justify-center items-center gap-4'>
-												<button
-													className='text-2xl  rounded-full  text-red-500 duration-300 active:scale-90'
-													onClick={() => handleDelete(product._id)}
-												>
-													<MdDelete />
-												</button>
-												<Link
-													to={`/admin/product/update/${product._id}`}
-													className='text-xl rounded-full  text-blue-500  duration-300 active:scale-90'
-												>
-													<FaEdit />
-												</Link>
+											<td className='border'>
+												<div className='flex justify-around'>
+													<button
+														className='text-2xl  rounded-full  text-red-500 duration-300 active:scale-90'
+														onClick={() => handleDelete(product._id)}
+													>
+														<MdDelete />
+													</button>
+													<Link
+														to={`/admin/product/update/${product._id}`}
+														className='text-xl rounded-full  text-blue-500  duration-300 active:scale-90'
+													>
+														<FaEdit />
+													</Link>
+												</div>
 											</td>
 										</tr>
 									))}

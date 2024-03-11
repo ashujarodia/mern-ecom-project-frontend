@@ -30,6 +30,8 @@ const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const Users = lazy(() => import('./pages/admin/Users'));
 const Product = lazy(() => import('./pages/admin/Product'));
 const Category = lazy(() => import('./pages/admin/Category'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders'));
+const OrderDetails = lazy(() => import('./pages/admin/management/OrderDetails'));
 const NewProduct = lazy(() => import('./pages/admin/management/NewProduct'));
 const UpdateProduct = lazy(() => import('./pages/admin/management/UpdateProduct'));
 const NewCategory = lazy(() => import('./pages/admin/management/NewCategory'));
@@ -142,6 +144,14 @@ const App = () => {
 						<Route
 							path='/admin/product'
 							element={<Product />}
+						/>
+						<Route
+							path='/admin/orders'
+							element={<AdminOrders />}
+						/>
+						<Route
+							path='/admin/order/details/:orderId'
+							element={<OrderDetails />}
 						/>
 						<Route
 							path='/admin/product/new'

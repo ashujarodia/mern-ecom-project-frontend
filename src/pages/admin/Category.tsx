@@ -52,11 +52,11 @@ const Category = () => {
 									{categories?.map((category) => (
 										<tr key={category._id}>
 											<td className='border text-center px-4'>{category.name}</td>
-											<td className='border  py-2 w-16 px-4 h-14'>
+											<td className='border  py-2  px-4'>
 												<img
 													src={category.photo.url}
 													alt={category.name}
-													className='object-cover mx-auto'
+													className='object-center w-16 h-16 mx-auto'
 												/>
 											</td>
 											<td className='border px-4 py-7 h-full flex  justify-center items-center gap-4'>

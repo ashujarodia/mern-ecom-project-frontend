@@ -37,6 +37,10 @@ export type CategoryDetailsRequest = {
 	userId: string;
 	categoryId: string;
 };
+export type OrderDetailsRequest = {
+	userId: string;
+	orderId: string;
+};
 
 export type NewCartItemRequest = {
 	userId: string;
@@ -94,9 +98,13 @@ export type AllUsersResponse = {
 	success: boolean;
 	users: User[];
 };
-export type MyOrdersResponse = {
+export type OrdersResponse = {
 	success: boolean;
 	orders: OrderType[];
+};
+export type OrderDetailsResponse = {
+	success: boolean;
+	order: OrderType;
 };
 
 export type CartItemsResponse = {

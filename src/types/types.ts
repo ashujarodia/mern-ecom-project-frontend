@@ -53,4 +53,6 @@ export type OrderType = {
 	subtotal: number;
 	tax: number;
 	total: number;
+	user: User;
+	createdAt: string;
 };
